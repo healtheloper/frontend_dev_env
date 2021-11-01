@@ -1,3 +1,3 @@
 # Frontend Development Env
 
-## Webpack
+## Webpack v4
