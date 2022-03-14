@@ -1,21 +1,23 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
 const path = require("path");
 
 const MODE = "development";
 
 module.exports = {
   mode: MODE,
-  entry: {
-    main: "./src/client/js/index.js",
-  },
+  entry: ["./src/client/js/index.js", "./src/client/scss/styles.scss"],
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "js/index.js",
-    clean: true,
   },
   plugins: [
-    new MiniCssExtractPlugin({ filename: "css/style.css" }),
+    new ErrorOverlayPlugin(),
+    new ESLintPlugin(),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: "src/index.html",
     }),
@@ -33,8 +35,8 @@ module.exports = {
         },
       },
       {
-        test: /.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        test: /.s[ac]ss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
